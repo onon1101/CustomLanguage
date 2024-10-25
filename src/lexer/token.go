@@ -104,7 +104,7 @@ func (token Token) Debug() {
 	}
 }
 
-func NewToken(kind TokenKind, value string) Token {
+func newUniqueToken(kind TokenKind, value string) Token {
 	return Token{
 		Kind:  kind,
 		Value: value,
