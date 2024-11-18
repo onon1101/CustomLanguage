@@ -8,7 +8,14 @@ import (
 )
 
 func main() {
-	bytes, _ := os.ReadFile("examples/00.lang")
+
+	args := os.Args[1:]
+	if len(args) == 0 {
+		panic("No file provided")
+	}
+
+	code_file := os.Args[1]
+	bytes, _ := os.ReadFile(code_file)
 	source := string(bytes)
 	tokens := lexer.Tokenize(source)
 

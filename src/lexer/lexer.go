@@ -75,7 +75,7 @@ func createLexer(source string) *lexer {
 			{regexp.MustCompile(`\/\/.*`), commentHandler},
 			{regexp.MustCompile(`"[^"]*"`), stringHandler},
 			{regexp.MustCompile(`[0-9]+(\.[0-9]+)?`), numberHandler},
-			// {regexp.MustCompile(`[a-zA-Z_][a-zA-Z0-9_]*`), symbolHandler},
+			{regexp.MustCompile(`[a-zA-Z_][a-zA-Z0-9_]*`), symbolHandler},
 			{regexp.MustCompile(`\[`), defaultHandler(OPEN_BRACKET, "[")},
 			{regexp.MustCompile(`\]`), defaultHandler(CLOSE_BRACKET, "]")},
 			{regexp.MustCompile(`\{`), defaultHandler(OPEN_CURLY, "{")},
@@ -135,17 +135,17 @@ func numberHandler(lex *lexer, regex *regexp.Regexp) {
 	lex.advenceN(len(match))
 }
 
-// func symbolHandler(lex *lexer, regex *regexp.Regexp) {
-// 	match := regex.FindString(lex.remainder())
+func symbolHandler(lex *lexer, regex *regexp.Regexp) {
+	match := regex.FindString(lex.remainder())
 
-// 	if kind, found := reserved_lu[match]; found {
-// 		lex.push(newUniqueToken(kind, match))
-// 	} else {
-// 		lex.push(newUniqueToken(IDENTIFIER, match))
-// 	}
+	if kind, found := reserved_lu[match]; found {
+		lex.push(newUniqueToken(kind, match))
+	} else {
+		lex.push(newUniqueToken(IDENTIFIER, match))
+	}
 
-// 	lex.advenceN(len(match))
-// }
+	lex.advenceN(len(match))
+}
 
 func skipHandler(lex *lexer, regex *regexp.Regexp) {
 	match := regex.FindStringIndex(lex.remainder())
